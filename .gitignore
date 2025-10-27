@@ -1,0 +1,16 @@
+# IDE config
+/.idea/
+*.iml
+*.classpath
+*.project
+
+**/pom.xml
+**/*.png
+*.png
+
+# Thư mục build
+/out/
+/target/
+
+# File biên dịch
+*.class
