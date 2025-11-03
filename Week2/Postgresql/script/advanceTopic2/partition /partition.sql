@@ -46,3 +46,38 @@ Key word:
     -> Partition pruning
 
 */
+
+-- create partition
+create table address_partition (
+	address_id BIGSERIAL not null,
+	country varchar(255) not null,
+	province varchar(255) not null,
+	city varchar(255) not null, 
+	street varchar(255) not null
+) partition by range (province);
+
+DROP TABLE IF EXISTS address_0;
+create table address_0 partition of address_partition
+	for values from ('Busan') to ('Province 1');
+
+DROP TABLE IF EXISTS address_500;
+create table address_500 partition of address_partition
+	for values from ('Province 1') to ('Province 501');
+
+DROP TABLE IF EXISTS address_1000;
+create table address_1000 partition of address_partition
+	for values from ('Province 501') to ('Province 999');
+
+DROP TABLE IF EXISTS address_1;
+create table address_1 partition of address_partition
+	for values from ('Province 999') to ('Victoria 1');
+
+
+explain INSERT INTO address_partition
+SELECT * FROM address;
+
+select * from address_partition
+where province = 'Province 500';
+
+select * from address
+where province = 'Province 669';
